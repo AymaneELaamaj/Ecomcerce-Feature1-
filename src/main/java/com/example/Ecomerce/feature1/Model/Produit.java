@@ -10,10 +10,8 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-@Data
+
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 public class Produit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
