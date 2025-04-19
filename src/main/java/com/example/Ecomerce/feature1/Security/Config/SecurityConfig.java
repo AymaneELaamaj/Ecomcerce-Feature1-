@@ -3,6 +3,7 @@ package com.example.Ecomerce.feature1.Security.Config;
 import com.example.Ecomerce.feature1.Security.service.Customeruserdetails;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,10 +33,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import javax.crypto.spec.SecretKeySpec;
 import javax.sql.DataSource;
 @Configuration
-//@EnableWebSecurity
-//@EnableMethodSecurity(prePostEnabled = true)
+@EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
 public class SecurityConfig {
+    @Autowired
     private Customeruserdetails userDetailsService;
     //@Value("${jwt.secret}")
     private String secretKey;
@@ -62,9 +64,7 @@ public class SecurityConfig {
                 .csrf(c -> c.disable())// utilisation de statless
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(ar -> ar
-                        .requestMatchers("/auth/login"
-                                ,"/auth/register",
-                                "/h2-console/**"
+                        .requestMatchers("/auth/**"
                                 )
                         .permitAll()
                         .anyRequest().authenticated()
