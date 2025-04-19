@@ -6,7 +6,7 @@
 # separate terms of service, privacy policy, and support
 # documentation.
 
-name: Ecomerce_project with CI/CD
+name: Ecomerce_project with CI
 
 on:
   push:

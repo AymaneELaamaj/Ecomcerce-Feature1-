@@ -113,7 +113,7 @@
 				</configuration>
 			</plugin>
 		</plugins>
-		<finalName>ecomerce_project</finalName>
+
 	</build>
 
 </project>
