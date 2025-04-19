@@ -1,11 +1,21 @@
 package com.example.Ecomerce.feature1.Security;
 
+import com.example.Ecomerce.feature1.DTO.RegisterRequest;
+import com.example.Ecomerce.feature1.Eums.Role;
+import com.example.Ecomerce.feature1.Model.Utilsateur;
+import com.example.Ecomerce.feature1.Repository.UserReop;
+import jakarta.validation.Valid;
+import jdk.jshell.execution.Util;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.JwsHeader;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -16,22 +26,56 @@ import org.springframework.web.bind.annotation.*;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 @RestController
 @NoArgsConstructor
-@AllArgsConstructor
 @RequestMapping("/auth")
 public class Auth {
     @Autowired
     private AuthenticationManager authenticationManager;
-
+    @Autowired
+    private UserReop userRepository;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private JwtEncoder jwtEncoder;
 
+    public Auth(AuthenticationManager authenticationManager, UserReop userRepository, PasswordEncoder passwordEncoder, JwtEncoder jwtEncoder) {
+        this.authenticationManager = authenticationManager;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtEncoder = jwtEncoder;
+    }
+
     @GetMapping("/profile")
     public Authentication authentication(Authentication authentication){
         return authentication;
+    }
+    // Fichier: controller/AuthController.java
+    @PostMapping("/register")
+    public ResponseEntity<String> register( @RequestBody RegisterRequest request) {
+        System.out.println("Recherche email: " + request.email());
+        System.out.println("Recherche password: " + request.password());
+        Optional<Utilsateur> existing = userRepository.findByEmail(request.email());
+        System.out.println("Utilisateur existant: " + existing);
+
+        if (existing.isPresent()) {
+            return ResponseEntity.badRequest().body("Email déjà utilisé");
+        }
+
+        // Créer et sauvegarder le nouvel utilisateur
+        Utilsateur user = new Utilsateur();
+        user.setEmail(request.email());
+        user.setPassword(passwordEncoder.encode(request.password()));
+        user.setRole(request.role() != null ? request.role() : Role.USER);
+
+        userRepository.save(user);
+        System.out.println("Mot de passe encodé: " + passwordEncoder.encode(request.password()));
+
+
+        return ResponseEntity.ok("Utilisateur enregistré avec succès");
     }
     @PostMapping("/login")
     public Map<String,String> login(@RequestBody Map<String, String> loginData) {

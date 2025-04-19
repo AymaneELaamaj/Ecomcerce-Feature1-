@@ -32,8 +32,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import javax.crypto.spec.SecretKeySpec;
 import javax.sql.DataSource;
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true)
+//@EnableWebSecurity
+//@EnableMethodSecurity(prePostEnabled = true)
 @AllArgsConstructor
 public class SecurityConfig {
     private Customeruserdetails userDetailsService;
@@ -62,7 +62,11 @@ public class SecurityConfig {
                 .csrf(c -> c.disable())// utilisation de statless
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(ar -> ar
-                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/auth/login"
+                                ,"/auth/register",
+                                "/h2-console/**"
+                                )
+                        .permitAll()
                         .anyRequest().authenticated()
 
                 )

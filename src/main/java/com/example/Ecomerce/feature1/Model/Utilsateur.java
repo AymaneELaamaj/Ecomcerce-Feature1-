@@ -2,6 +2,7 @@ package com.example.Ecomerce.feature1.Model;
 
 import com.example.Ecomerce.feature1.Eums.Role;
 import jakarta.persistence.*;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,12 +11,13 @@ import java.util.Collection;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Utilsateur  implements UserDetails {
-    public Utilsateur(String email, String password, Role role) {
-        this.email = email;
-        password = password;
-        this.role = role;
-    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
@@ -55,7 +57,7 @@ public class Utilsateur  implements UserDetails {
     }
 
     public void setPassword(String password) {
-        password = password;
+       this.password = password;
     }
 
     public Role getRole() {
