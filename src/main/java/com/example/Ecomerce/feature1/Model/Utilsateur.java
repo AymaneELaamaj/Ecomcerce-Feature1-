@@ -1,18 +1,42 @@
 package com.example.Ecomerce.feature1.Model;
 
 import com.example.Ecomerce.feature1.Eums.Role;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+
+import java.util.Collection;
+import java.util.List;
 
 @Entity
-public class Utilsateur {
+public class Utilsateur  implements UserDetails {
     public Utilsateur(String email, String password, Role role) {
         this.email = email;
-        Password = password;
+        password = password;
         this.role = role;
     }
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.name()));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() { return true; }
+
+    @Override
+    public boolean isAccountNonLocked() { return true; }
+
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
+
+    @Override
+    public boolean isEnabled() { return true; }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,11 +51,11 @@ public class Utilsateur {
     }
 
     public String getPassword() {
-        return Password;
+        return password;
     }
 
     public void setPassword(String password) {
-        Password = password;
+        password = password;
     }
 
     public Role getRole() {
@@ -44,7 +68,9 @@ public class Utilsateur {
 
     private String email;
 
-   private String Password;
-   private Role role;
+   private String password;
+    @Enumerated(EnumType.STRING)
+
+    private Role role;
 
 }
