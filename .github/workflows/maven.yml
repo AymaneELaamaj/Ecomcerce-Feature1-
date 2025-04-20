@@ -35,7 +35,8 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           cache: maven
-
+      - name: Set encoding
+        run: echo "JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF-8" >> $GITHUB_ENV
       - name: Build with Maven
         env:
           SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/ecomerce_db
