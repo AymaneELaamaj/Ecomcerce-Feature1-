@@ -1,7 +1,7 @@
 package com.example.Ecomerce.feature1.Service;
 
 import com.example.Ecomerce.feature1.Model.Produit;
-import com.example.Ecomerce.feature1.Repository.ProduitReopsitory;
+import com.example.Ecomerce.feature1.Repository.ProduitRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public class ProduitServiceImp implements IProduitService {
     @Autowired
-    private ProduitReopsitory produitRepository;
+    private ProduitRepository produitRepository;
     @Override
     public Produit Saveproduit(Produit produit) {
         return produitRepository.save(produit);
