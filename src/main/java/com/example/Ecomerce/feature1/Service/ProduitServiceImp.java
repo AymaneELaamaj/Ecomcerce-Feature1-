@@ -9,11 +9,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 @Service
-public class ProduitServiceImp implements IProduitService {
-    public ProduitServiceImp(ProduitReopsitory produitRepository) {
-        this.produitRepository = produitRepository;
-    }
 
+public class ProduitServiceImp implements IProduitService {
     @Autowired
     private ProduitReopsitory produitRepository;
     @Override
