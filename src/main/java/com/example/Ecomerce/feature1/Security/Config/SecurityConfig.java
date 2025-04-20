@@ -39,7 +39,7 @@ import javax.sql.DataSource;
 public class SecurityConfig {
     @Autowired
     private Customeruserdetails userDetailsService;
-
+    @Autowired
     private String secretKey;
 
 

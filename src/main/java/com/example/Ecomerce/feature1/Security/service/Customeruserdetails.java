@@ -2,6 +2,7 @@ package com.example.Ecomerce.feature1.Security.service;
 
 import com.example.Ecomerce.feature1.Model.Utilsateur;
 import com.example.Ecomerce.feature1.Repository.UserReop;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 @Service
 public class Customeruserdetails implements UserDetailsService {
+    @Autowired
     private UserReop userRepo;
 
     public Customeruserdetails(UserReop userReop) {
