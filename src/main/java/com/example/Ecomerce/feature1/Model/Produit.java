@@ -1,14 +1,13 @@
 package com.example.Ecomerce.feature1.Model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -20,6 +19,10 @@ public class Produit {
     private String description;
     private BigDecimal price;
     private int stock;
+    // Ajoutez cette nouvelle propriété
+    @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> cartItems = new ArrayList<>();
+
 
     public Produit(String name, String description, BigDecimal price, int stock) {
         this.name = name;

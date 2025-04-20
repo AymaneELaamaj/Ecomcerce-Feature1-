@@ -1,6 +1,7 @@
 package com.example.Ecomerce.feature1.Model;
 
 import com.example.Ecomerce.feature1.Eums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -74,5 +75,9 @@ public class Utilsateur  implements UserDetails {
     @Enumerated(EnumType.STRING)
 
     private Role role;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Cart cart;
+
 
 }
