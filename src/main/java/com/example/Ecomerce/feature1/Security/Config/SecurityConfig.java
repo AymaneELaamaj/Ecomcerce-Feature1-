@@ -39,20 +39,10 @@ import javax.sql.DataSource;
 public class SecurityConfig {
     @Autowired
     private Customeruserdetails userDetailsService;
-    //@Value("${jwt.secret}")
+
     private String secretKey;
-    // @Bean
-    public JdbcUserDetailsManager jdbcUserDetailsManager(DataSource dataSource){
-        return  new JdbcUserDetailsManager(dataSource);
-    }
-    //@Bean
-    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-        PasswordEncoder passwordEncoder = passwordEncoder();
-        return new InMemoryUserDetailsManager(
-                User.withUsername("Nissrine@gmail.com").password(passwordEncoder.encode("1234")).authorities("USER").build(),
-                User.withUsername("aymane@gmail.com").password(passwordEncoder.encode("1234")).authorities("USER", "ADMIN").build()
-        );
-    }
+
+
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
