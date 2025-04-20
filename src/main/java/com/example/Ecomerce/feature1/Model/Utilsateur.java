@@ -79,5 +79,35 @@ public class Utilsateur  implements UserDetails {
     @JsonIgnore
     private Cart cart;
 
+    public Cart getCart() {
+        return cart;
+    }
 
+    public void setCart(Cart cart) {
+        this.cart = cart;
+    }
+
+
+
+
+
+    @OneToMany(mappedBy = "proprietaire")
+    @JsonIgnore
+    private List<Produit> produit;
+
+    public List<Produit> getProduit() {
+        return produit;
+    }
+
+    public void setProduit(List<Produit> produit) {
+        this.produit = produit;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

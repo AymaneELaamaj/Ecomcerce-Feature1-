@@ -53,7 +53,8 @@ public class SecurityConfig {
                 .csrf(c -> c.disable())// utilisation de statless
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(ar -> ar
-                        .requestMatchers("/auth/**"
+                        .requestMatchers("/auth/**",
+                                "/Produit/allproduit"
                                 )
                         .permitAll()
                         .anyRequest().authenticated()

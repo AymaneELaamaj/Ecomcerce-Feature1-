@@ -95,4 +95,5 @@ public class Cart {
     public void setDiscount(BigDecimal discount) {
         this.discount = discount;
     }
+
 }

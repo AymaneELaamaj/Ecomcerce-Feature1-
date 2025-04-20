@@ -1,5 +1,6 @@
 package com.example.Ecomerce.feature1.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +23,26 @@ public class Produit {
     // Ajoutez cette nouvelle propriété
     @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<CartItem> cartItems = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn(name = "proprietaire_id")
+    @JsonIgnore
+    private Utilsateur proprietaire;
 
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+    }
+
+    public Utilsateur getProprietaire() {
+        return proprietaire;
+    }
+
+    public void setProprietaire(Utilsateur proprietaire) {
+        this.proprietaire = proprietaire;
+    }
 
     public Produit(String name, String description, BigDecimal price, int stock) {
         this.name = name;

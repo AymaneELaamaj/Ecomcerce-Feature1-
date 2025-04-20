@@ -69,7 +69,7 @@ public class Auth {
         Utilsateur user = new Utilsateur();
         user.setEmail(request.email());
         user.setPassword(passwordEncoder.encode(request.password()));
-        user.setRole(request.role() != null ? request.role() : Role.USER);
+        user.setRole(request.role());
 
         userRepository.save(user);
         System.out.println("Mot de passe encodé: " + passwordEncoder.encode(request.password()));
