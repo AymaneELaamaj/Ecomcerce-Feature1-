@@ -40,13 +40,5 @@ public class CartImpl implements ICart {
         return cartRepository.save(cart);
     }
 
-    @Override
-    public List<Produit> getProduitsInCart(Utilsateur user) {
-        Cart cart = cartRepository.findByUser(user)
-                .orElseThrow(() -> new RuntimeException("Panier introuvable"));
 
-        return cart.getCartItems();
-
-
-    }
 }

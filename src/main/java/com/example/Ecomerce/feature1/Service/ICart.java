@@ -8,5 +8,4 @@ import java.util.List;
 
 public interface ICart {
     Cart addItemtoCart(Utilsateur user, Long produitI);
-    public List<Produit> getProduitsInCart(Utilsateur user) ;
 }
