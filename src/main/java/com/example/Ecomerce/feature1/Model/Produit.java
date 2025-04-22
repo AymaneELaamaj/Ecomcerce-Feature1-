@@ -21,19 +21,22 @@ public class Produit {
     private BigDecimal price;
     private int stock;
     // Ajoutez cette nouvelle propriété
-    @OneToMany(mappedBy = "produit", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItem> cartItems = new ArrayList<>();
+
     @ManyToOne
     @JoinColumn(name = "proprietaire_id")
     @JsonIgnore
     private Utilsateur proprietaire;
+    @ManyToOne
+    @JoinColumn(name = "cart_id")
+    @JsonIgnore
+    private Cart cart;
 
-    public List<CartItem> getCartItems() {
-        return cartItems;
+    public Cart getCart() {
+        return cart;
     }
 
-    public void setCartItems(List<CartItem> cartItems) {
-        this.cartItems = cartItems;
+    public void setCart(Cart cart) {
+        this.cart = cart;
     }
 
     public Utilsateur getProprietaire() {

@@ -29,7 +29,6 @@ public class ProduitController {
     @Autowired
     private UserReop userReop;
     @GetMapping("/allproduit")
-    @PreAuthorize("hasAuthority('SCOPE_ROLE_USER')")
     public List<Produit> getall(){
         return iProduitService.ProduitList();
     }

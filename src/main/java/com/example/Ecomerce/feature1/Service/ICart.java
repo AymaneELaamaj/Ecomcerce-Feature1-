@@ -1,7 +1,12 @@
 package com.example.Ecomerce.feature1.Service;
 
 import com.example.Ecomerce.feature1.Model.Cart;
+import com.example.Ecomerce.feature1.Model.Produit;
+import com.example.Ecomerce.feature1.Model.Utilsateur;
+
+import java.util.List;
 
 public interface ICart {
-    Cart addItemtoCart(Long userId, Long produitId, int quantity);
+    Cart addItemtoCart(Utilsateur user, Long produitI);
+    public List<Produit> getProduitsInCart(Utilsateur user) ;
 }

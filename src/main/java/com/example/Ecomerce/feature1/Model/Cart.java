@@ -2,6 +2,7 @@ package com.example.Ecomerce.feature1.Model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "carts")
-
+@Builder
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +25,7 @@ public class Cart {
     private Utilsateur user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<CartItem> cartItems = new ArrayList<>();
+    private List<Produit> cartItems = new ArrayList<>();
 
     private BigDecimal totalPrice = BigDecimal.ZERO;
 
@@ -35,7 +36,7 @@ public class Cart {
 
     public void calculateTotalPrice() {
         this.totalPrice = cartItems.stream()
-                .map(item -> item.getProduit().getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
+                .map(item -> item.getPrice())
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .subtract(discount);
     }
@@ -47,12 +48,11 @@ public class Cart {
         this.promoCode = null;
     }
 
-    public Cart(Utilsateur user, List<CartItem> cartItems, BigDecimal totalPrice, String promoCode, BigDecimal discount) {
+    public Cart(Utilsateur user) {
         this.user = user;
-        this.cartItems = cartItems;
-        this.totalPrice = totalPrice;
-        this.promoCode = promoCode;
-        this.discount = discount;
+        this.cartItems = new ArrayList<>();
+        this.totalPrice = BigDecimal.ZERO;
+        this.discount = BigDecimal.ZERO;
     }
     public Cart(){}
 
@@ -64,11 +64,11 @@ public class Cart {
         this.user = user;
     }
 
-    public List<CartItem> getCartItems() {
+    public List<Produit> getCartItems() {
         return cartItems;
     }
 
-    public void setCartItems(List<CartItem> cartItems) {
+    public void setCartItems(List<Produit> cartItems) {
         this.cartItems = cartItems;
     }
 
