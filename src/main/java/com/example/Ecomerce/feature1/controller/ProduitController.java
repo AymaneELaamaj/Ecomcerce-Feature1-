@@ -55,7 +55,7 @@ public class ProduitController {
     }
     @DeleteMapping("/deleteproduit/{id}")
     @PreAuthorize("@produitSecurityService.isOwnerOrAdmin(#id, authentication)")
-
+    //Le # indique à Spring qu'il s'agit d'un paramètre de la méthode
     public void deleteone(@PathVariable Long id,Authentication authentication){
         iProduitService.Deleteproduit(id,authentication);
     }

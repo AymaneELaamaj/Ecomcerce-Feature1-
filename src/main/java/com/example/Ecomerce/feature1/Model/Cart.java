@@ -33,7 +33,7 @@ public class Cart {
 
     private BigDecimal discount = BigDecimal.ZERO;
 
-    /*public void calculateTotalPrice() {
+    public void calculateTotalPrice() {
         this.totalPrice = cartItems.stream()
                 .map(item -> item.getProduit().getPrice().multiply(BigDecimal.valueOf(item.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
@@ -45,7 +45,7 @@ public class Cart {
         this.totalPrice = BigDecimal.ZERO;
         this.discount = BigDecimal.ZERO;
         this.promoCode = null;
-    }*/
+    }
 
     public Cart(Utilsateur user, List<CartItem> cartItems, BigDecimal totalPrice, String promoCode, BigDecimal discount) {
         this.user = user;

@@ -1,5 +1,6 @@
 package com.example.Ecomerce.feature1.Service;
 
+import com.example.Ecomerce.feature1.Model.CartItem;
 import com.example.Ecomerce.feature1.Model.Produit;
 import com.example.Ecomerce.feature1.Model.Utilsateur;
 import com.example.Ecomerce.feature1.Repository.ProduitRepository;
@@ -65,5 +66,10 @@ public class ProduitServiceImp implements IProduitService {
     @Override
     public List<Produit> ProduitList() {
         return produitRepository.findAll();
+    }
+
+    @Override
+    public CartItem addProduittoCart(Produit produit) {
+        return null;
     }
 }

@@ -26,7 +26,8 @@ public class ProduitSecurityService {
 
         // Tu dois récupérer l'utilisateur depuis la BDD par son email
         Utilsateur currentUser = userReop.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur introuvable"));        Produit produit = produitRepository.findById(produitId)
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur introuvable"));
+        Produit produit = produitRepository.findById(produitId)
                 .orElseThrow(() -> new RuntimeException("Produit non trouvé"));
 
         return isAdmin(currentUser) || isOwner(currentUser, produit);
