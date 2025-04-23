@@ -32,6 +32,9 @@ public class CartController {
     private  UserReop userRepository;
     @Autowired
     private CartRepo cartRepo;
+    @Autowired
+    private CartImpl cartservice;
+
 
     @PostMapping("/add-item/{produitid}")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_USER') or hasAuthority('SCOPE_ROLE_VENDOR')")
@@ -46,8 +49,14 @@ public class CartController {
     }
     @GetMapping("/getitems")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_USER') or hasAuthority('SCOPE_ROLE_VENDOR')")
-    public List<Cart> getitmes(){
-        return cartRepo.findAll();
+    public List<Produit> getitmes(Authentication authentication){
+        Jwt jwt = (Jwt) authentication.getPrincipal();
+        String email = jwt.getSubject();
+        Utilsateur currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur introuvable"));
+        List<Produit> produits = cartservice.getcartbyuser(currentUser);
+        return produits;
+        //return cartRepo.findAll();
 
     }
 

@@ -1,6 +1,8 @@
 package com.example.Ecomerce.feature1.Model;
 
 import com.example.Ecomerce.feature1.Eums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -23,8 +25,8 @@ public class Order {
     @JoinColumn(name = "user_id")
     private Utilsateur user; // L'utilisateur qui a passé la commande
 
-    @OneToMany
-    @JoinColumn(name = "order_id")
+    @OneToMany(mappedBy = "order")
+    @JsonManagedReference // To manage the forward reference of 'produits' during serialization
     private List<Produit> produits; // Les produits de la commande, chaque produit avec une quantité
 
     private BigDecimal totalPrice; // Le prix total de la commande
@@ -49,12 +51,20 @@ public class Order {
         this.status = status;
         this.orderDate = LocalDateTime.now();
     }
+
     public void calculateTotalPrice() {
         this.totalPrice = produits.stream()
                 .map(produit -> produit.getPrice().multiply(BigDecimal.valueOf(produit.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Utilsateur getUser() {
         return user;
@@ -112,4 +122,3 @@ public class Order {
         this.orderDate = orderDate;
     }
 }
-

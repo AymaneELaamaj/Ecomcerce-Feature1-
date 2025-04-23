@@ -61,6 +61,6 @@ public class IOrderImpl implements IOrder{
 
     @Override
     public Order GetOrder(Long id) {
-        return null;
+        return orderRepository.findById(id).orElseThrow(()->new RuntimeException("Order not exists"));
     }
 }
