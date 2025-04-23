@@ -6,6 +6,7 @@ import com.example.Ecomerce.feature1.Model.Utilsateur;
 import com.example.Ecomerce.feature1.Repository.UserReop;
 import com.example.Ecomerce.feature1.Service.IOrderImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -22,6 +23,7 @@ public class OrderController {
     @Autowired
     private UserReop userRepository;
     @PostMapping("/createorder")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_USER') or hasAuthority('SCOPE_ROLE_VENDOR')")
     public Order createorder(@RequestBody OrderRequest order, Authentication authentication){
         Jwt jwt = (Jwt) authentication.getPrincipal();
         String email = jwt.getSubject();
