@@ -26,6 +26,27 @@ public class Produit {
     @JoinColumn(name = "proprietaire_id")
     @JsonIgnore
     private Utilsateur proprietaire;
+    private int quantity; // Quantité de ce produit dans la commande
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+    @ManyToOne
+    @JoinColumn(name = "order_id") // La colonne qui fera référence à l'ID de la commande
+    private Order order; // Référence vers la commande
+
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
+
     @ManyToOne
     @JoinColumn(name = "cart_id")
     @JsonIgnore
