@@ -1,5 +1,6 @@
 package com.example.Ecomerce.feature1.Model;
 
+import com.example.Ecomerce.feature1.Eums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,14 +33,14 @@ public class Order {
 
     private String billingAddress; // L'adresse de facturation
 
-    private String status; // Le statut de la commande (PENDING, PAID, SHIPPED, DELIVERED)
+    private OrderStatus status; // Le statut de la commande (PENDING, PAID, SHIPPED, DELIVERED)
 
     private LocalDateTime orderDate; // Date de création de la commande
 
     public Order() {
     }
 
-    public Order(Utilsateur user, List<Produit> produits, BigDecimal totalPrice, String shippingAddress, String billingAddress, String status) {
+    public Order(Utilsateur user, List<Produit> produits, BigDecimal totalPrice, String shippingAddress, String billingAddress, OrderStatus status) {
         this.user = user;
         this.produits = produits;
         this.totalPrice = totalPrice;
@@ -95,11 +96,11 @@ public class Order {
         this.billingAddress = billingAddress;
     }
 
-    public String getStatus() {
+    public OrderStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
