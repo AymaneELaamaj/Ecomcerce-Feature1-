@@ -2,12 +2,15 @@ package com.example.Ecomerce.feature1.DTO;
 
 import com.example.Ecomerce.feature1.Model.Order;
 
+import java.util.List;
+
 public class OrderRequest {
 
     private String shippingAddress;
     private String billingAddress;
 
-    // Getters et setters
+
+// Getters et setters
 
 
     public String getShippingAddress() {

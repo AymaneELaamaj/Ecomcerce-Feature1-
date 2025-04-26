@@ -33,6 +33,7 @@ public class CartImpl implements ICart {
         // 🛒 Chercher le panier existant de l’utilisateur ou en créer un
         Cart cart = cartRepository.findByUser(persistentUser).orElse(new Cart(persistentUser));
         produit.setCart(cart); // Lien bidirectionnel pour JPA
+        produit.setQuantity(1);
 
         cart.getCartItems().add(produit);
         cart.calculateTotalPrice(); // Facultatif si tu veux recalculer à chaque ajout

@@ -33,29 +33,24 @@ public class OrderController {
 
     @PostMapping("/createorder")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_USER') or hasAuthority('SCOPE_ROLE_VENDOR')")
-    public Order createorder(@RequestBody OrderRequest orderRequest, Authentication authentication){
+    public Order createOrder(@RequestBody OrderRequest orderRequest, Authentication authentication) {
+        // 1. Récupérer l'utilisateur actuel à partir du token
         Jwt jwt = (Jwt) authentication.getPrincipal();
         String email = jwt.getSubject();
+
         Utilsateur currentUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur introuvable"));
-        List<Produit> produits = cartservice.getcartbyuser(currentUser); // This should be a method to get the cart's products
 
-        Order order = new Order();
-        order.setUser(currentUser);
-        order.setProduits(produits);
-        order.setShippingAddress(orderRequest.getShippingAddress());
-        order.setBillingAddress(orderRequest.getBillingAddress());
-        order.setStatus(OrderStatus.PENDING);
-        order.calculateTotalPrice();  // Calculate the total price of the order
-        order.setOrderDate(LocalDateTime.now());
-
-        // Save the order to the database
-        return orderRepository.save(order);
-
+        // 2. Appeler directement ton service CreateOrder
+        return orderservice.CreateOrder(
+                email,
+                orderRequest.getShippingAddress(),
+                orderRequest.getBillingAddress()
+        );
     }
+
     @GetMapping("/getorder/{id}")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_USER') or hasAuthority('SCOPE_ROLE_VENDOR')")
-
     public Order getorderbyid(@PathVariable Long id){
         return orderservice.GetOrder(id);
 
