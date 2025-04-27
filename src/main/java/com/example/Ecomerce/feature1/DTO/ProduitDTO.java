@@ -6,6 +6,15 @@ public class ProduitDTO {
     private Long id;
     private String name;
     private BigDecimal price;
+    private int quantity;
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     public Long getId() {
         return id;

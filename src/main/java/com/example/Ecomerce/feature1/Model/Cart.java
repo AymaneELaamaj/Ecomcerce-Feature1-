@@ -25,7 +25,7 @@ public class Cart {
     private Utilsateur user;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Produit> cartItems = new ArrayList<>();
+    private List<CartItem> cartItems = new ArrayList<>();
 
     private BigDecimal totalPrice = BigDecimal.ZERO;
 
@@ -36,7 +36,7 @@ public class Cart {
 
     public void calculateTotalPrice() {
         this.totalPrice = cartItems.stream()
-                .map(item -> item.getPrice())
+                .map(item -> item.getProduct().getPrice())
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .subtract(discount);
     }
@@ -64,11 +64,11 @@ public class Cart {
         this.user = user;
     }
 
-    public List<Produit> getCartItems() {
+    public List<CartItem> getCartItems() {
         return cartItems;
     }
 
-    public void setCartItems(List<Produit> cartItems) {
+    public void setCartItems(List<CartItem> cartItems) {
         this.cartItems = cartItems;
     }
 

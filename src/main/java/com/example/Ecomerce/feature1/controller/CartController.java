@@ -2,6 +2,7 @@ package com.example.Ecomerce.feature1.controller;
 
 import com.example.Ecomerce.feature1.DTO.AddToCartRequest;
 import com.example.Ecomerce.feature1.Model.Cart;
+import com.example.Ecomerce.feature1.Model.CartItem;
 import com.example.Ecomerce.feature1.Model.Produit;
 import com.example.Ecomerce.feature1.Model.Utilsateur;
 import com.example.Ecomerce.feature1.Repository.CartRepo;
@@ -49,12 +50,12 @@ public class CartController {
     }
     @GetMapping("/getitems")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_USER') or hasAuthority('SCOPE_ROLE_VENDOR')")
-    public List<Produit> getitmes(Authentication authentication){
+    public List<CartItem> getitmes(Authentication authentication){
         Jwt jwt = (Jwt) authentication.getPrincipal();
         String email = jwt.getSubject();
         Utilsateur currentUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur introuvable"));
-        List<Produit> produits = cartservice.getcartbyuser(currentUser);
+        List<CartItem> produits = cartservice.getcartbyuser(currentUser);
         return produits;
         //return cartRepo.findAll();
 

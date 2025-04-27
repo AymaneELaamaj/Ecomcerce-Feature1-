@@ -1,5 +1,6 @@
 package com.example.Ecomerce.feature1.controller;
 
+import com.example.Ecomerce.feature1.DTO.OrderDTO;
 import com.example.Ecomerce.feature1.DTO.OrderRequest;
 import com.example.Ecomerce.feature1.Eums.OrderStatus;
 import com.example.Ecomerce.feature1.Model.Order;
@@ -33,7 +34,7 @@ public class OrderController {
 
     @PostMapping("/createorder")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_USER') or hasAuthority('SCOPE_ROLE_VENDOR')")
-    public Order createOrder(@RequestBody OrderRequest orderRequest, Authentication authentication) {
+    public OrderDTO createOrder(@RequestBody OrderRequest orderRequest, Authentication authentication) {
         // 1. Récupérer l'utilisateur actuel à partir du token
         Jwt jwt = (Jwt) authentication.getPrincipal();
         String email = jwt.getSubject();
@@ -52,7 +53,7 @@ public class OrderController {
     @GetMapping("/getorder/{id}")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_USER') or hasAuthority('SCOPE_ROLE_VENDOR')")
     public Order getorderbyid(@PathVariable Long id){
-        return orderservice.GetOrder(id);
+        return orderservice.getOrder(id);
 
     }
 

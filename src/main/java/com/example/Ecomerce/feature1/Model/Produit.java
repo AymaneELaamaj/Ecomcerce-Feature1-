@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Entity
 public class Produit {
@@ -25,15 +26,9 @@ public class Produit {
     @JsonIgnore
     private Utilsateur proprietaire;
 
-    @ManyToOne
-    @JoinColumn(name = "order_id") // La colonne qui fera référence à l'ID de la commande
-    @JsonBackReference // To manage the backward reference of 'order' during serialization
-    private Order order; // Référence vers la commande
 
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    @JsonIgnore
-    private Cart cart;
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CartItem> cartItems;
 
     public Produit(String name, String description, BigDecimal price, int stock) {
         this.name = name;
@@ -102,19 +97,6 @@ public class Produit {
         this.proprietaire = proprietaire;
     }
 
-    public Order getOrder() {
-        return order;
-    }
 
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
 }

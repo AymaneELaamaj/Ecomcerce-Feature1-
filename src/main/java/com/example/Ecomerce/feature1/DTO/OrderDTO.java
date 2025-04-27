@@ -1,5 +1,7 @@
 package com.example.Ecomerce.feature1.DTO;
 
+import com.example.Ecomerce.feature1.Model.CartItem;
+
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -8,7 +10,7 @@ public class OrderDTO {
     private String shippingAddress;
     private String billingAddress;
     private BigDecimal totalPrice;
-    private List<ProduitDTO> produits;
+    private List<CartItem> produits;
 
     public Long getId() {
         return id;
@@ -42,11 +44,11 @@ public class OrderDTO {
         this.totalPrice = totalPrice;
     }
 
-    public List<ProduitDTO> getProduits() {
+    public List<CartItem> getProduits() {
         return produits;
     }
 
-    public void setProduits(List<ProduitDTO> produits) {
+    public void setProduits(List<CartItem> produits) {
         this.produits = produits;
     }
 // Add getters and setters

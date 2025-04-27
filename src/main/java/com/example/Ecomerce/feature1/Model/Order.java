@@ -27,7 +27,7 @@ public class Order {
 
     @OneToMany(mappedBy = "order")
     @JsonManagedReference // To manage the forward reference of 'produits' during serialization
-    private List<Produit> produits; // Les produits de la commande, chaque produit avec une quantité
+    private List<CartItem> produits; // Les produits de la commande, chaque produit avec une quantité
 
     private BigDecimal totalPrice; // Le prix total de la commande
 
@@ -42,7 +42,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Utilsateur user, List<Produit> produits, BigDecimal totalPrice, String shippingAddress, String billingAddress, OrderStatus status) {
+    public Order(Utilsateur user, List<CartItem> produits, BigDecimal totalPrice, String shippingAddress, String billingAddress, OrderStatus status) {
         this.user = user;
         this.produits = produits;
         this.totalPrice = totalPrice;
@@ -54,7 +54,7 @@ public class Order {
 
     public void calculateTotalPrice() {
         this.totalPrice = produits.stream()
-                .map(produit -> produit.getPrice().multiply(BigDecimal.valueOf(produit.getQuantity())))
+                .map(produit -> produit.getProduct().getPrice().multiply(BigDecimal.valueOf(produit.getQuantity())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
@@ -74,11 +74,11 @@ public class Order {
         this.user = user;
     }
 
-    public List<Produit> getProduits() {
+    public List<CartItem> getProduits() {
         return produits;
     }
 
-    public void setProduits(List<Produit> produits) {
+    public void setProduits(List<CartItem> produits) {
         this.produits = produits;
     }
 

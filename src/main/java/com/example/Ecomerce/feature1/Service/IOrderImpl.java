@@ -1,13 +1,18 @@
 package com.example.Ecomerce.feature1.Service;
 
+import com.example.Ecomerce.feature1.DTO.OrderDTO;
 import com.example.Ecomerce.feature1.DTO.OrderItemDTO;
+import com.example.Ecomerce.feature1.DTO.UserDTO;
 import com.example.Ecomerce.feature1.Eums.OrderStatus;
+import com.example.Ecomerce.feature1.Model.CartItem;
 import com.example.Ecomerce.feature1.Model.Order;
 import com.example.Ecomerce.feature1.Model.Produit;
 import com.example.Ecomerce.feature1.Model.Utilsateur;
+import com.example.Ecomerce.feature1.Repository.CartItemsRepo;
 import com.example.Ecomerce.feature1.Repository.OrderRepo;
 import com.example.Ecomerce.feature1.Repository.ProduitRepository;
 import com.example.Ecomerce.feature1.Repository.UserReop;
+import com.example.Ecomerce.feature1.mapper.OrderMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -29,32 +34,36 @@ public class IOrderImpl implements IOrder{
     private ProduitRepository produitRepository;
     @Autowired
     private CartImpl cartservice;
+    @Autowired
+    CartItemsRepo cartItemsRepo;
+
     @Override
-    public Order CreateOrder(String email, String shippingAddress, String billingAddress) {
+    public OrderDTO CreateOrder(String email, String shippingAddress, String billingAddress) {
         Utilsateur currentUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur introuvable"));
+        UserDTO userDTO = new UserDTO(currentUser.getEmail());
 
-        List<Produit> produits = cartservice.getcartbyuser(currentUser);
+        List<CartItem> produits = cartservice.getcartbyuser(currentUser);
 
         if (produits.isEmpty()) {
             throw new RuntimeException("Votre panier est vide !");
         }
 
         BigDecimal totalPrice = BigDecimal.ZERO;
-        List<Produit> produitsCommandes = new ArrayList<>();
+        List<CartItem> produitsCommandes = new ArrayList<>();
 
-        for (Produit produit : produits) {
+        for (CartItem produit : produits) {
             if (produit.getQuantity() <= 0) {
-                throw new RuntimeException("Produit " + produit.getName() + " a une quantité invalide");
+                throw new RuntimeException("Produit " + produit.getProduct().getName() + " a une quantité invalide");
             }
-            if (produit.getStock() < produit.getQuantity()) {
-                throw new RuntimeException("Stock insuffisant pour : " + produit.getName());
+            if (produit.getProduct().getStock() < produit.getQuantity()) {
+                throw new RuntimeException("Stock insuffisant pour : " + produit.getProduct().getName());
             }
 
-            BigDecimal produitTotal = produit.getPrice().multiply(BigDecimal.valueOf(produit.getQuantity()));
+            BigDecimal produitTotal = produit.getProduct().getPrice().multiply(BigDecimal.valueOf(produit.getQuantity()));
             totalPrice = totalPrice.add(produitTotal);
 
-            produit.setStock(produit.getStock() - produit.getQuantity());
+            produit.getProduct().setStock(produit.getProduct().getStock() - produit.getQuantity());
             produitsCommandes.add(produit);
         }
 
@@ -68,10 +77,14 @@ public class IOrderImpl implements IOrder{
         order.setOrderDate(LocalDateTime.now());
 
         Order savedOrder = orderRepository.save(order);
-        produitRepository.saveAll(produitsCommandes);
-        //cartservice.clearCart(currentUser); // vider le panier
+        cartItemsRepo.saveAll(produitsCommandes);
 
-        return savedOrder;
+        //cartservice.clearCart(currentUser); // vider le panier
+        OrderDTO savedOrderdto = OrderMapper.toDTO(savedOrder);
+        cartservice.clearCart(currentUser);
+
+
+        return savedOrderdto;
     }
 
     @Override
@@ -80,7 +93,11 @@ public class IOrderImpl implements IOrder{
     }
 
     @Override
-    public Order GetOrder(Long id) {
-        return orderRepository.findById(id).orElseThrow(()->new RuntimeException("Order not exists"));
+    public Order getOrder(Long id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Order not exists"));
+
+        return order; // On utilise le mapper ici
     }
+
 }
