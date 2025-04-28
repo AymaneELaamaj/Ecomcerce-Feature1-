@@ -10,5 +10,5 @@ import java.util.List;
 public interface IOrder {
     OrderDTO CreateOrder(String email, String shippingAddress, String billingAddress);
     void DeleteOrder(Long id);
-    Order getOrder(Long id);
+    OrderDTO getOrder(Long id);
 }

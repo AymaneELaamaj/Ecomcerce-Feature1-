@@ -25,7 +25,7 @@ public class Order {
     @JoinColumn(name = "user_id")
     private Utilsateur user; // L'utilisateur qui a passé la commande
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JsonManagedReference // To manage the forward reference of 'produits' during serialization
     private List<CartItem> produits; // Les produits de la commande, chaque produit avec une quantité
 

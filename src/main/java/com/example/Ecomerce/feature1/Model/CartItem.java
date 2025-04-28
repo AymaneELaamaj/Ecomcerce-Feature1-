@@ -1,5 +1,6 @@
 package com.example.Ecomerce.feature1.Model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -30,6 +31,7 @@ public class CartItem {
     private int quantity;
     @ManyToOne
     @JoinColumn(name = "Order_id")
+    @JsonBackReference
     Order order;
 
     public Order getOrder() {

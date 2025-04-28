@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -35,13 +36,13 @@ public class IOrderImpl implements IOrder{
     @Autowired
     private CartImpl cartservice;
     @Autowired
-    CartItemsRepo cartItemsRepo;
+    private CartItemsRepo cartItemsRepo;
+
 
     @Override
     public OrderDTO CreateOrder(String email, String shippingAddress, String billingAddress) {
         Utilsateur currentUser = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur introuvable"));
-        UserDTO userDTO = new UserDTO(currentUser.getEmail());
 
         List<CartItem> produits = cartservice.getcartbyuser(currentUser);
 
@@ -70,11 +71,15 @@ public class IOrderImpl implements IOrder{
         Order order = new Order();
         order.setUser(currentUser);
         order.setProduits(produitsCommandes);
+        produitsCommandes.stream()
+                .forEach(pr -> pr.setOrder(order));
+
         order.setShippingAddress(shippingAddress);
         order.setBillingAddress(billingAddress);
         order.setStatus(OrderStatus.PENDING);
         order.setTotalPrice(totalPrice);
         order.setOrderDate(LocalDateTime.now());
+
 
         Order savedOrder = orderRepository.save(order);
         cartItemsRepo.saveAll(produitsCommandes);
@@ -93,11 +98,11 @@ public class IOrderImpl implements IOrder{
     }
 
     @Override
-    public Order getOrder(Long id) {
+    public OrderDTO getOrder(Long id) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Order not exists"));
 
-        return order; // On utilise le mapper ici
+        return OrderMapper.toDTO(order); // On utilise le mapper ici
     }
 
 }

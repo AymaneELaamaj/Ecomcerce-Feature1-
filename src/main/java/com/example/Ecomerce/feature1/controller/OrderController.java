@@ -52,7 +52,7 @@ public class OrderController {
 
     @GetMapping("/getorder/{id}")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_USER') or hasAuthority('SCOPE_ROLE_VENDOR')")
-    public Order getorderbyid(@PathVariable Long id){
+    public OrderDTO getorderbyid(@PathVariable Long id){
         return orderservice.getOrder(id);
 
     }
