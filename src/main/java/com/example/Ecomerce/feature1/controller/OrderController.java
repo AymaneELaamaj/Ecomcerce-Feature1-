@@ -56,5 +56,12 @@ public class OrderController {
         return orderservice.getOrder(id);
 
     }
+    @DeleteMapping("/delete/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_ROLE_USER') or hasAuthority('SCOPE_ROLE_VENDOR')")
+    public void deleteorder(@PathVariable Long id){
+         orderservice.DeleteOrder(id);
+
+    }
+
 
 }

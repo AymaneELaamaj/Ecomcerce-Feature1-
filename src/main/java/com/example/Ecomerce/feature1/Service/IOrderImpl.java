@@ -94,7 +94,7 @@ public class IOrderImpl implements IOrder{
 
     @Override
     public void DeleteOrder(Long id) {
-
+    orderRepository.deleteById(id);
     }
 
     @Override
