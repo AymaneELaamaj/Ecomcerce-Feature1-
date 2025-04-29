@@ -15,15 +15,7 @@ public class PaymentDTO {
     private PaymentStatuts status; // "PENDING", "SUCCESS", "FAILED"
 
     private LocalDateTime paymentDate;
-    private Order order;
 
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
 
     public Long getId() {
         return id;

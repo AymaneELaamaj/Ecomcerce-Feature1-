@@ -34,7 +34,7 @@ public class Order {
     private String shippingAddress; // L'adresse de livraison
 
     private String billingAddress; // L'adresse de facturation
-
+    @Enumerated(EnumType.STRING)
     private OrderStatus status; // Le statut de la commande (PENDING, PAID, SHIPPED, DELIVERED)
 
     private LocalDateTime orderDate; // Date de création de la commande

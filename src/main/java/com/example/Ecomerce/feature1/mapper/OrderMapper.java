@@ -2,9 +2,11 @@ package com.example.Ecomerce.feature1.mapper;
 
 
 import com.example.Ecomerce.feature1.DTO.OrderDTO;
+import com.example.Ecomerce.feature1.DTO.PaymentDTO;
 import com.example.Ecomerce.feature1.DTO.ProduitDTO;
 import com.example.Ecomerce.feature1.Model.CartItem;
 import com.example.Ecomerce.feature1.Model.Order;
+import com.example.Ecomerce.feature1.Model.Payment;
 import com.example.Ecomerce.feature1.Model.Produit;
 import org.springframework.beans.BeanUtils;
 
@@ -29,6 +31,15 @@ public class OrderMapper {
         produitDTO.setQuantity(produit.getQuantity());
 
         return produitDTO;
+    }
+    public static PaymentDTO mapToPaymentDTO(Payment payment) {
+        PaymentDTO paymentDTO = new PaymentDTO();
+        paymentDTO.setId(payment.getId());
+        paymentDTO.setAmount(payment.getAmount());
+        paymentDTO.setPaymentMethod(payment.getPaymentMethod());
+        paymentDTO.setStatus(payment.getStatus());
+        paymentDTO.setPaymentDate(payment.getPaymentDate());
+        return paymentDTO;
     }
 }
 

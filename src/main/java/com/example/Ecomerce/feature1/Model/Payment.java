@@ -15,6 +15,7 @@ public class Payment {
     private double amount;
 
     private String paymentMethod; // Ex: "Credit Card", "PayPal", "Cash On Delivery"
+    @Enumerated(EnumType.STRING)
 
     private PaymentStatuts status; // "PENDING", "SUCCESS", "FAILED"
 
