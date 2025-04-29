@@ -1,15 +1,11 @@
-package com.example.Ecomerce.feature1.Model;
+package com.example.Ecomerce.feature1.DTO;
 
 import com.example.Ecomerce.feature1.Eums.PaymentStatuts;
-import jakarta.persistence.*;
+import com.example.Ecomerce.feature1.Model.Order;
 
 import java.time.LocalDateTime;
 
-@Entity
-public class Payment {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class PaymentDTO {
     private Long id;
 
     private double amount;
@@ -19,11 +15,15 @@ public class Payment {
     private PaymentStatuts status; // "PENDING", "SUCCESS", "FAILED"
 
     private LocalDateTime paymentDate;
-
-    @OneToOne
     private Order order;
 
-    // Getters & Setters
+    public Order getOrder() {
+        return order;
+    }
+
+    public void setOrder(Order order) {
+        this.order = order;
+    }
 
     public Long getId() {
         return id;
@@ -64,13 +64,4 @@ public class Payment {
     public void setPaymentDate(LocalDateTime paymentDate) {
         this.paymentDate = paymentDate;
     }
-
-    public Order getOrder() {
-        return order;
-    }
-
-    public void setOrder(Order order) {
-        this.order = order;
-    }
-
 }
