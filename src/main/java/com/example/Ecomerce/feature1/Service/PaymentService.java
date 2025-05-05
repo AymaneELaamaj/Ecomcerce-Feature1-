@@ -28,8 +28,10 @@ public class PaymentService implements IPaymentService{
     private OrderRepo orderRepo;
     @Autowired
     private UserReop userRepository;
+    @Autowired private PaymentStrategyFactory strategyFactory;
+
     @Override
-    public PaymentDTO process( Utilsateur user) {
+    public PaymentDTO process( Utilsateur user,String paymentMethod) {
 
         Utilsateur currentuser = userRepository.findById(user.getId())
                 .orElseThrow(() -> new RuntimeException("Utilisateur non trouvé"));
@@ -44,12 +46,9 @@ public class PaymentService implements IPaymentService{
         /*else if (BigDecimal.valueOf(currentuser..getAmount()).compareTo(dto.getOrder().getTotalPrice())<=0){
             System.out.println( " votrs solde est insufissant");
         }*/
-        Payment payment = new Payment();
-        payment.setOrder(order);
-        payment.setAmount(order.getTotalPrice().doubleValue() );
-        payment.setPaymentMethod("Card");
-        payment.setStatus(PaymentStatuts.Success); // tu peux gérer l’état plus finement plus tard
-        payment.setPaymentDate(LocalDateTime.now());
+        PaymentStrategy strategy = strategyFactory.getStrategy(paymentMethod);
+        Payment payment = strategy.pay(order);
+
 
         // Sauvegarde du paiement
         payment = paymentRepo.save(payment);

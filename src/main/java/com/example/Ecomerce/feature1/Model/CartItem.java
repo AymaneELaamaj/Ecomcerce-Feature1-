@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 @Table(name = "cart_items")
 @Getter
 @Setter
-@NoArgsConstructor
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
