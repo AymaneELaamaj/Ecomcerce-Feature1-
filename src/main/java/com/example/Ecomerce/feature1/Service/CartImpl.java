@@ -9,11 +9,13 @@ import com.example.Ecomerce.feature1.Repository.CartRepo;
 import com.example.Ecomerce.feature1.Repository.ProduitRepository;
 import com.example.Ecomerce.feature1.Repository.UserReop;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Component
 public class CartImpl implements ICart {
     @Autowired
     private CartRepo cartRepository;

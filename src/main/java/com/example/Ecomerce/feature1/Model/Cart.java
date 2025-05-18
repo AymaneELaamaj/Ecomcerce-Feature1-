@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.List;
 @Entity
 @Table(name = "carts")
 @Builder
+@Component
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,7 +49,15 @@ public class Cart {
         this.discount = BigDecimal.ZERO;
         this.promoCode = null;
     }
-
+    @Builder
+    public Cart(Long id, Utilsateur user, List<CartItem> cartItems, BigDecimal totalPrice, String promoCode, BigDecimal discount) {
+        this.id = id;
+        this.user = user;
+        this.cartItems = cartItems;
+        this.totalPrice = totalPrice;
+        this.promoCode = promoCode;
+        this.discount = discount;
+    }
     public Cart(Utilsateur user) {
         this.user = user;
         this.cartItems = new ArrayList<>();

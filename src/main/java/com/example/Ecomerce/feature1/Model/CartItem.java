@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 
@@ -13,6 +14,7 @@ import java.math.BigDecimal;
 @Table(name = "cart_items")
 @Getter
 @Setter
+@Component
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

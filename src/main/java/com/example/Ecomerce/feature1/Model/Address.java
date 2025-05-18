@@ -3,11 +3,13 @@ package com.example.Ecomerce.feature1.Model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 @Entity
 @Table(name = "addresses")
 @Getter
 @Setter
+@Component
 public class Address {
 
     @Id

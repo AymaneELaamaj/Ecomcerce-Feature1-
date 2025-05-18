@@ -9,10 +9,11 @@ import com.example.Ecomerce.feature1.Model.Order;
 import com.example.Ecomerce.feature1.Model.Payment;
 import com.example.Ecomerce.feature1.Model.Produit;
 import org.springframework.beans.BeanUtils;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.stream.Collectors;
-
+@Component
 public class OrderMapper {
 
     public static OrderDTO toDTO(Order order) {

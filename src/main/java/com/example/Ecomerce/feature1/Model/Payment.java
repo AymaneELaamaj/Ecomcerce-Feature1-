@@ -2,10 +2,12 @@ package com.example.Ecomerce.feature1.Model;
 
 import com.example.Ecomerce.feature1.Eums.PaymentStatuts;
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Component
 public class Payment {
 
     @Id

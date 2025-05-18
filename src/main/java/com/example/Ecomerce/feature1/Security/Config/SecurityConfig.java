@@ -35,7 +35,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
-@AllArgsConstructor
+
 public class SecurityConfig {
     private Customeruserdetails userDetailsService;
     //@Value("${jwt.secret}")
